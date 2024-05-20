@@ -22,13 +22,22 @@ if [ $(docker inspect -f '{{.State.Running}}' $container_id) != "true" ]; then
 fi
 
 # Wait for the container to start
-sleep 5
+# sleep 60
+# Wait for the container to be ready
+echo "Waiting for the container to be ready..."
+while ! docker exec $container_id curl -s --head http://localhost:5000 >/dev/null; do
+    sleep 1
+done
+echo "Container is ready."
 
 # Run the TTS test script
 bash ./subroutines/tts_test.sh $container_id
 if [ $? -ne 0 ]; then
     exit 1
 fi
+
+# Append container logs to logs.txt
+docker logs $container_id >> results/logs.txt
 
 # Stop and remove the Docker container
 docker stop $container_id

@@ -27,7 +27,7 @@ if [ $? -ne 0 ]; then
   docker logs $container_id >> "$BASE_DIR/results/logs.txt"
   docker stop $container_id
   docker rm $container_id
-  docker rmi spacy-demo
+  docker rmi speechbrain-demo
   exit 1
 fi
 
@@ -36,14 +36,8 @@ if echo "$response" | grep -q "error"; then
   echo "Error occurred during transcription:" | tee -a "$BASE_DIR/results/logs.txt"
   echo "$response" | tee -a "$BASE_DIR/results/logs.txt"
   docker logs $container_id >> "$BASE_DIR/results/logs.txt"
-  docker stop $container_id
-  docker rm $container_id
-  docker rmi speechbrain-demo
   exit 1
 fi
 
 # Save the transcription results to a file
 echo "$response" > "$BASE_DIR/results/transcription_results.txt"
-
-# Append container logs to logs.txt
-docker logs $container_id >> "$BASE_DIR/results/logs.txt"
