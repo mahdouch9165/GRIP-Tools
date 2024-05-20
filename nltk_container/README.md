@@ -1,0 +1,22 @@
+# Functions
+
+- Tokenization
+- Part-of-Speech (POS) Tagging
+- Named Entity Recognition (NER)
+- Lemmatization
+- Stemming
+- Sentiment Analysis
+- Text Classification
+- Keyword Extraction
+- Sentence Segmentation
+- Language Detection
+- Word Frequency Distribution
+- Synonyms and Antonyms
+- Text Summarization
+- Text Translation
+- Spelling Correction
+- Chunking?
+- N-Grams
+- Word Frequency
+- Stopword Removal
+- Text Similarity
