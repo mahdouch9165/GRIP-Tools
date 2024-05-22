@@ -1,8 +1,8 @@
 # Functions
 
-- Tokenization
-- Part-of-Speech (POS) Tagging
-- Named Entity Recognition (NER)
+- Tokenization - Done
+- Part-of-Speech (POS) Tagging - Done
+- Named Entity Recognition (NER) - Done
 - Lemmatization
 - Stemming
 - Sentiment Analysis
