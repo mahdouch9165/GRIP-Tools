@@ -1,85 +1,42 @@
+2024/05/23 13:33:32 http2: server: error reading preface from client //./pipe/docker_engine: file has already been closed
 #0 building with "default" instance using docker driver
 
 #1 [internal] load .dockerignore
-#1 transferring context: 2B 0.0s done
-#1 DONE 0.1s
+#1 transferring context: 2B done
+#1 DONE 0.0s
 
 #2 [internal] load build definition from Dockerfile
-#2 transferring dockerfile: 204B 0.0s done
+#2 transferring dockerfile: 204B done
 #2 DONE 0.1s
 
 #3 [internal] load metadata for docker.io/library/python:3.9
-#3 DONE 0.7s
+#3 DONE 0.5s
 
 #4 [internal] load build context
-#4 transferring context: 3.27kB 0.0s done
+#4 transferring context: 6.42kB 0.1s done
 #4 DONE 0.1s
 
 #5 [1/5] FROM docker.io/library/python:3.9@sha256:1446afd121c574b13077f4137443114cd8085f1dade5ee63c08305b5870f2b8a
 #5 resolve docker.io/library/python:3.9@sha256:1446afd121c574b13077f4137443114cd8085f1dade5ee63c08305b5870f2b8a 0.1s done
 #5 DONE 0.1s
 
-#6 [2/5] WORKDIR /app
+#6 [3/5] COPY requirements.txt .
 #6 CACHED
 
-#7 [3/5] COPY requirements.txt .
-#7 DONE 0.1s
+#7 [2/5] WORKDIR /app
+#7 CACHED
 
 #8 [4/5] RUN pip install --no-cache-dir -r requirements.txt
-#8 2.317 Collecting flask
-#8 2.464   Downloading flask-3.0.3-py3-none-any.whl (101 kB)
-#8 2.694      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 101.7/101.7 kB 413.9 kB/s eta 0:00:00
-#8 2.779 Collecting nltk
-#8 2.802   Downloading nltk-3.8.1-py3-none-any.whl (1.5 MB)
-#8 2.959      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 9.8 MB/s eta 0:00:00
-#8 3.602 Collecting numpy
-#8 3.648   Downloading numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.2 MB)
-#8 4.732      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.2/18.2 MB 18.7 MB/s eta 0:00:00
-#8 4.857 Collecting itsdangerous>=2.1.2
-#8 4.887   Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
-#8 4.937 Collecting blinker>=1.6.2
-#8 4.964   Downloading blinker-1.8.2-py3-none-any.whl (9.5 kB)
-#8 5.021 Collecting Jinja2>=3.1.2
-#8 5.047   Downloading jinja2-3.1.4-py3-none-any.whl (133 kB)
-#8 5.056      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 133.3/133.3 kB 24.9 MB/s eta 0:00:00
-#8 5.148 Collecting Werkzeug>=3.0.0
-#8 5.175   Downloading werkzeug-3.0.3-py3-none-any.whl (227 kB)
-#8 5.194      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 227.3/227.3 kB 18.9 MB/s eta 0:00:00
-#8 5.261 Collecting click>=8.1.3
-#8 5.293   Downloading click-8.1.7-py3-none-any.whl (97 kB)
-#8 5.301      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 97.9/97.9 kB 22.9 MB/s eta 0:00:00
-#8 5.436 Collecting importlib-metadata>=3.6.0
-#8 5.458   Downloading importlib_metadata-7.1.0-py3-none-any.whl (24 kB)
-#8 5.559 Collecting joblib
-#8 5.586   Downloading joblib-1.4.2-py3-none-any.whl (301 kB)
-#8 5.601      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 301.8/301.8 kB 26.4 MB/s eta 0:00:00
-#8 6.901 Collecting regex>=2021.8.3
-#8 6.933   Downloading regex-2024.5.15-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (774 kB)
-#8 7.028      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 774.6/774.6 kB 8.9 MB/s eta 0:00:00
-#8 7.205 Collecting tqdm
-#8 7.229   Downloading tqdm-4.66.4-py3-none-any.whl (78 kB)
-#8 7.236      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.3/78.3 kB 33.0 MB/s eta 0:00:00
-#8 7.357 Collecting zipp>=0.5
-#8 7.385   Downloading zipp-3.18.2-py3-none-any.whl (8.3 kB)
-#8 7.582 Collecting MarkupSafe>=2.0
-#8 7.605   Downloading MarkupSafe-2.1.5-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (25 kB)
-#8 7.850 Installing collected packages: zipp, tqdm, regex, numpy, MarkupSafe, joblib, itsdangerous, click, blinker, Werkzeug, nltk, Jinja2, importlib-metadata, flask
-#8 12.34 Successfully installed Jinja2-3.1.4 MarkupSafe-2.1.5 Werkzeug-3.0.3 blinker-1.8.2 click-8.1.7 flask-3.0.3 importlib-metadata-7.1.0 itsdangerous-2.2.0 joblib-1.4.2 nltk-3.8.1 numpy-1.26.4 regex-2024.5.15 tqdm-4.66.4 zipp-3.18.2
-#8 12.34 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
-#8 12.55 
-#8 12.55 [notice] A new release of pip is available: 23.0.1 -> 24.0
-#8 12.55 [notice] To update, run: pip install --upgrade pip
-#8 DONE 13.1s
+#8 CACHED
 
 #9 [5/5] COPY . .
 #9 DONE 0.1s
 
 #10 exporting to image
-#10 exporting layers
-#10 exporting layers 0.8s done
-#10 writing image sha256:2fa90bf0cf35bffeb4eb984b76554a6706211a4df90d50df72f7e18408ee1d13 done
+#10 exporting layers 0.1s done
+#10 writing image sha256:7f98175570044d25c1e025d777a2265cf3508eef9b5aa68c4a512431de917ff3 done
 #10 naming to docker.io/library/nltk-demo 0.0s done
-#10 DONE 0.9s
+#10 DONE 0.1s
 
 What's Next?
   View a summary of image vulnerabilities and recommendations → docker scout quickview
@@ -95,13 +52,17 @@ Container is ready.
 [nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.
 [nltk_data] Downloading package words to /root/nltk_data...
 [nltk_data]   Unzipping corpora/words.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package vader_lexicon to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://172.17.0.2:5000
 [33mPress CTRL+C to quit[0m
-127.0.0.1 - - [22/May/2024 18:58:12] "[33mHEAD / HTTP/1.1[0m" 404 -
-172.17.0.1 - - [22/May/2024 18:58:13] "POST /ner HTTP/1.1" 200 -
+127.0.0.1 - - [23/May/2024 17:33:39] "[33mHEAD / HTTP/1.1[0m" 404 -
+172.17.0.1 - - [23/May/2024 17:33:39] "POST /keywords HTTP/1.1" 200 -
 [nltk_data] Downloading package punkt to /root/nltk_data...
 [nltk_data]   Unzipping tokenizers/punkt.zip.
 [nltk_data] Downloading package averaged_perceptron_tagger to
@@ -112,14 +73,42 @@ Container is ready.
 [nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.
 [nltk_data] Downloading package words to /root/nltk_data...
 [nltk_data]   Unzipping corpora/words.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package vader_lexicon to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://172.17.0.2:5000
 [33mPress CTRL+C to quit[0m
-127.0.0.1 - - [22/May/2024 18:58:12] "[33mHEAD / HTTP/1.1[0m" 404 -
-172.17.0.1 - - [22/May/2024 18:58:13] "POST /ner HTTP/1.1" 200 -
-172.17.0.1 - - [22/May/2024 18:58:14] "POST /pos_tag HTTP/1.1" 200 -
+127.0.0.1 - - [23/May/2024 17:33:39] "[33mHEAD / HTTP/1.1[0m" 404 -
+172.17.0.1 - - [23/May/2024 17:33:39] "POST /keywords HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:41] "POST /lemmatize HTTP/1.1" 200 -
+[nltk_data] Downloading pac * Debug mode: off
+/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package averaged_perceptron_tagger to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping taggers/averaged_perceptron_tagger.zip.
+[nltk_data] Downloading package maxent_ne_chunker to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.
+[nltk_data] Downloading package words to /root/nltk_data...
+[nltk_data]   Unzipping corpora/words.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package vader_lexicon to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [23/May/2024 17:33:39] "[33mHEAD / HTTP/1.1[0m" 404 -
+172.17.0.1 - - [23/May/2024 17:33:39] "POST /keywords HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:41] "POST /lemmatize HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /ner HTTP/1.1" 200 -
 [nltk_data] Downloading package punkt to /root/nltk_data...
 [nltk_data]   Unzipping tokenizers/punkt.zip.
 [nltk_data] Downloading package averaged_perceptron_tagger to
@@ -130,16 +119,101 @@ Container is ready.
 [nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.
 [nltk_data] Downloading package words to /root/nltk_data...
 [nltk_data]   Unzipping corpora/words.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package vader_lexicon to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://172.17.0.2:5000
 [33mPress CTRL+C to quit[0m
-127.0.0.1 - - [22/May/2024 18:58:12] "[33mHEAD / HTTP/1.1[0m" 404 -
-172.17.0.1 - - [22/May/2024 18:58:13] "POST /ner HTTP/1.1" 200 -
-172.17.0.1 - - [22/May/2024 18:58:14] "POST /pos_tag HTTP/1.1" 200 -
-172.17.0.1 - - [22/May/2024 18:58:14] "POST /tokenize HTTP/1.1" 200 -
-85299f607fe9853d59993a4f25e682381f119b82615874238158d64b97560c9e
-85299f607fe9853d59993a4f25e682381f119b82615874238158d64b97560c9e
+127.0.0.1 - - [23/May/2024 17:33:39] "[33mHEAD / HTTP/1.1[0m" 404 -
+172.17.0.1 - - [23/May/2024 17:33:39] "POST /keywords HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:41] "POST /lemmatize HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /ner HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /pos_tag HTTP/1.1" 200 -
+[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package averaged_perceptron_tagger to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping taggers/averaged_perceptron_tagger.zip.
+[nltk_data] Downloading package maxent_ne_chunker to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.
+[nltk_data] Downloading package words to /root/nltk_data...
+[nltk_data]   Unzipping corpora/words.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package vader_lexicon to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [23/May/2024 17:33:39] "[33mHEAD / HTTP/1.1[0m" 404 -
+172.17.0.1 - - [23/May/2024 17:33:39] "POST /keywords HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:41] "POST /lemmatize HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /ner HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /pos_tag HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:43] "POST /sentiment HTTP/1.1" 200 -
+[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package averaged_perceptron_tagger to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping taggers/averaged_perceptron_tagger.zip.
+[nltk_data] Downloading package maxent_ne_chunker to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.
+[nltk_data] Downloading package words to /root/nltk_data...
+[nltk_data]   Unzipping corpora/words.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package vader_lexicon to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [23/May/2024 17:33:39] "[33mHEAD / HTTP/1.1[0m" 404 -
+172.17.0.1 - - [23/May/2024 17:33:39] "POST /keywords HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:41] "POST /lemmatize HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /ner HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /pos_tag HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:43] "POST /sentiment HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:44] "POST /stem HTTP/1.1" 200 -
+ * Serving Flask app 'app'
+ * Debug mode: off
+/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package averaged_perceptron_tagger to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping taggers/averaged_perceptron_tagger.zip.
+[nltk_data] Downloading package maxent_ne_chunker to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.
+[nltk_data] Downloading package words to /root/nltk_data...
+[nltk_data]   Unzipping corpora/words.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data] Downloading package vader_lexicon to /root/nltk_data...
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [23/May/2024 17:33:39] "[33mHEAD / HTTP/1.1[0m" 404 -
+172.17.0.1 - - [23/May/2024 17:33:39] "POST /keywords HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:41] "POST /lemmatize HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /ner HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:42] "POST /pos_tag HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:43] "POST /sentiment HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:44] "POST /stem HTTP/1.1" 200 -
+172.17.0.1 - - [23/May/2024 17:33:45] "POST /tokenize HTTP/1.1" 200 -
+ca486b99063c994a7ee786f88d2ec2ff4853b5bc7331b335a9a720a02698e513
+ca486b99063c994a7ee786f88d2ec2ff4853b5bc7331b335a9a720a02698e513
 Untagged: nltk-demo:latest
-Deleted: sha256:2fa90bf0cf35bffeb4eb984b76554a6706211a4df90d50df72f7e18408ee1d13
+Deleted: sha256:7f98175570044d25c1e025d777a2265cf3508eef9b5aa68c4a512431de917ff3

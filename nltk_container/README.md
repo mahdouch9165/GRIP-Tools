@@ -3,10 +3,10 @@
 - Tokenization - Done
 - Part-of-Speech (POS) Tagging - Done
 - Named Entity Recognition (NER) - Done
-- Lemmatization
-- Stemming
-- Sentiment Analysis
-- Text Classification
+- Lemmatization - Done
+- Stemming - Done
+- Sentiment Analysis - Done
+- Text Classification - Skipped (No Labelled Data)
 - Keyword Extraction
 - Sentence Segmentation
 - Language Detection
