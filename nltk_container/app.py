@@ -3,11 +3,15 @@ import nltk
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk.sentiment import SentimentIntensityAnalyzer
 from rake_nltk import Rake
-from nltk.tokenize import sent_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.classify import TextCat
 from nltk import FreqDist
 from nltk.corpus import wordnet
 from nltk import pos_tag, ne_chunk
+from nltk import ngrams
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 import sys
 
@@ -246,6 +250,89 @@ def get_antonyms():
         antonyms = sorted(set(antonyms))
 
         return jsonify({'antonyms': antonyms})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/ngrams', methods=['POST'])
+def generate_ngrams():
+    # Get the text and n-gram size from the request
+    text = request.json['text']
+    n = int(request.json.get('n', 2))
+
+    try:
+        # Tokenize the text into words
+        words = nltk.word_tokenize(text)
+
+        # Generate n-grams
+        ngrams_list = list(ngrams(words, n))
+
+        return jsonify({'ngrams': [' '.join(gram) for gram in ngrams_list]})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/remove_stopwords', methods=['POST'])
+def remove_stopwords():
+    # Get the text from the request
+    text = request.json['text']
+
+    try:
+        # Tokenize the text into words
+        words = nltk.word_tokenize(text)
+
+        # Get the list of English stopwords
+        stop_words = set(stopwords.words('english'))
+
+        # Remove stopwords from the text
+        filtered_words = [word for word in words if word.lower() not in stop_words]
+
+        # Join the filtered words back into a string
+        filtered_text = ' '.join(filtered_words)
+
+        return jsonify({'filtered_text': filtered_text})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/text_similarity', methods=['POST'])
+def text_similarity():
+    def preprocess_text(text):
+        # Tokenize the text into words
+        words = word_tokenize(text.lower())
+
+        # Remove stopwords
+        stop_words = set(stopwords.words('english'))
+        words = [word for word in words if word not in stop_words]
+
+        # Lemmatize the words
+        lemmatizer = WordNetLemmatizer()
+        words = [lemmatizer.lemmatize(word) for word in words]
+
+        return ' '.join(words)
+    try:
+        # Read the text from example.txt and example_2.txt
+        with open('example.txt', 'r') as file1, open('example_2.txt', 'r') as file2:
+            text1 = file1.read()
+            text2 = file2.read()
+
+        # Preprocess the texts
+        preprocessed_text1 = preprocess_text(text1)
+        preprocessed_text2 = preprocess_text(text2)
+
+        # Create a TF-IDF vectorizer
+        vectorizer = TfidfVectorizer()
+
+        # Compute the TF-IDF matrices
+        tfidf_matrix = vectorizer.fit_transform([preprocessed_text1, preprocessed_text2])
+
+        # Compute the cosine similarity
+        similarity_score = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
+
+        return jsonify({'similarity_score': similarity_score})
     except Exception as e:
         # Log the error message to the console
         print(f"Error: {str(e)}", file=sys.stderr)

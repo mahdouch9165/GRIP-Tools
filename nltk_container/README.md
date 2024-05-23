@@ -12,7 +12,6 @@
 - Language Detection - Done
 - Word Frequency Distribution - Done
 - Synonyms and Antonyms - Done
-- N-Grams
-- Word Frequency
-- Stopword Removal
+- N-Grams - Done
+- Stopword Removal - Done
 - Text Similarity
