@@ -7,15 +7,11 @@
 - Stemming - Done
 - Sentiment Analysis - Done
 - Text Classification - Skipped (No Labelled Data)
-- Keyword Extraction
-- Sentence Segmentation
-- Language Detection
-- Word Frequency Distribution
-- Synonyms and Antonyms
-- Text Summarization
-- Text Translation
-- Spelling Correction
-- Chunking?
+- Keyword Extraction - Done
+- Sentence Segmentation - Done
+- Language Detection - Done
+- Word Frequency Distribution - Done
+- Synonyms and Antonyms - Done
 - N-Grams
 - Word Frequency
 - Stopword Removal

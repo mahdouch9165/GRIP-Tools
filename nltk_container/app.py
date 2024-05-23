@@ -3,6 +3,11 @@ import nltk
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk.sentiment import SentimentIntensityAnalyzer
 from rake_nltk import Rake
+from nltk.tokenize import sent_tokenize
+from nltk.classify import TextCat
+from nltk import FreqDist
+from nltk.corpus import wordnet
+from nltk import pos_tag, ne_chunk
 
 import sys
 
@@ -14,6 +19,8 @@ nltk.download('words')
 nltk.download('wordnet')
 nltk.download('vader_lexicon')
 nltk.download('stopwords')
+nltk.download('textcat')
+nltk.download('crubadan')
 
 app = Flask(__name__)
 
@@ -142,6 +149,103 @@ def keyword_extraction():
         ranked_phrases = r.get_ranked_phrases_with_scores()
 
         return jsonify({'keywords': ranked_phrases})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/segment', methods=['POST'])
+def sentence_segmentation():
+    # Get the text from the request
+    text = request.json['text']
+
+    try:
+        # Perform sentence segmentation
+        sentences = sent_tokenize(text)
+
+        return jsonify({'sentences': sentences})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/detect_language', methods=['POST'])
+def language_detection():
+    # Get the text from the request
+    text = request.json['text']
+
+    try:
+        # Create a TextCat instance
+        tc = TextCat()
+
+        # Detect the language of the text
+        language = tc.guess_language(text)
+
+        return jsonify({'language': language})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/word_freq', methods=['POST'])
+def word_frequency_distribution():
+    # Get the text from the request
+    text = request.json['text']
+
+    try:
+        # Tokenize the text into words
+        words = nltk.word_tokenize(text.lower())
+
+        # Create a frequency distribution of the words
+        freq_dist = FreqDist(words)
+
+        # Convert the frequency distribution to a dictionary
+        freq_dict = dict(freq_dist)
+
+        return jsonify({'frequency_distribution': freq_dict})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/synonyms', methods=['POST'])
+def get_synonyms():
+    # Get the word from the request
+    word = request.json['word']
+
+    try:
+        # Find synonyms using WordNet
+        synonyms = []
+        for syn in wordnet.synsets(word):
+            for lemma in syn.lemmas():
+                synonyms.append(lemma.name())
+
+        # Remove duplicates and sort the synonyms
+        synonyms = sorted(set(synonyms))
+
+        return jsonify({'synonyms': synonyms})
+    except Exception as e:
+        # Log the error message to the console
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/antonyms', methods=['POST'])
+def get_antonyms():
+    # Get the word from the request
+    word = request.json['word']
+
+    try:
+        # Find antonyms using WordNet
+        antonyms = []
+        for syn in wordnet.synsets(word):
+            for lemma in syn.lemmas():
+                if lemma.antonyms():
+                    antonyms.append(lemma.antonyms()[0].name())
+
+        # Remove duplicates and sort the antonyms
+        antonyms = sorted(set(antonyms))
+
+        return jsonify({'antonyms': antonyms})
     except Exception as e:
         # Log the error message to the console
         print(f"Error: {str(e)}", file=sys.stderr)
