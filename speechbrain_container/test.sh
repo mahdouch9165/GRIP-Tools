@@ -30,11 +30,13 @@ while ! docker exec $container_id curl -s --head http://localhost:5000 >/dev/nul
 done
 echo "Container is ready."
 
-# Run the TTS test script
-bash ./subroutines/tts_test.sh $container_id
-if [ $? -ne 0 ]; then
-    exit 1
-fi
+# run the subroutines using a for loop
+for script in ./subroutines/*_test.sh; do
+    bash $script $container_id
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+done
 
 # Append container logs to logs.txt
 docker logs $container_id >> results/logs.txt
