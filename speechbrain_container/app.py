@@ -131,8 +131,9 @@ def text_to_speech():
         
     sentences = segment_text(text_content)
 
-    sentences = sorted(sentences, key=lambda x: len(x), reverse=True)
-    
+    # Create tuples of (index, sentence) and sort based on sentence length
+    indexed_sentences = sorted(enumerate(sentences), key=lambda x: len(x[1]), reverse=True)
+
     try:
         logging.info("Loading Tacotron2 TTS model...")
         tmpdir_tts = os.path.join(os.getcwd(), "tmpdir_tts")
@@ -155,7 +156,9 @@ def text_to_speech():
 
     try:
         logging.info("Starting text-to-speech...")
-        mel_outputs, mel_lengths, alignments = tacotron2.encode_batch(sentences)
+        # Extract the sorted sentences from the indexed tuples
+        sorted_sentences = [sentence for _, sentence in indexed_sentences]
+        mel_outputs, mel_lengths, alignments = tacotron2.encode_batch(sorted_sentences)
         logging.info("Text-to-speech completed.")
     except Exception as e:
         logging.exception(f"Error during text-to-speech: {str(e)}")
@@ -169,8 +172,14 @@ def text_to_speech():
         logging.exception(f"Error during vocoder processing: {str(e)}")
         return jsonify({'error': 'An error occurred during vocoder processing.'}), 500
 
-    # Concatenate the waveforms along the time dimension
-    concatenated_waveform = torch.cat(list(waveforms), dim=1)
+    # Create a dictionary to map the original index to the generated waveform
+    waveform_dict = {index: waveform for (index, _), waveform in zip(indexed_sentences, waveforms)}
+
+    # Reorder the waveforms based on the original index
+    reordered_waveforms = [waveform_dict[index] for index in range(len(sentences))]
+
+    # Concatenate the reordered waveforms along the time dimension
+    concatenated_waveform = torch.cat(reordered_waveforms, dim=1)
 
     # Convert the concatenated waveform to the desired sample format and channel layout
     concatenated_waveform = concatenated_waveform.squeeze(0)  # Remove the batch dimension
