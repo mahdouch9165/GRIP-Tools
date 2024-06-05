@@ -4,3 +4,4 @@ torchaudio
 torch
 torchvision
 nltk
+transformers

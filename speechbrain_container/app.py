@@ -3,6 +3,7 @@ from speechbrain.inference.ASR import EncoderDecoderASR
 from speechbrain.inference.separation import SepformerSeparation as separator
 from speechbrain.inference.TTS import Tacotron2
 from speechbrain.inference.vocoders import HIFIGAN
+from speechbrain.inference.interfaces import foreign_class
 import nltk
 import io
 import zipfile
@@ -197,6 +198,45 @@ def text_to_speech():
         as_attachment=True,
         download_name='tts_result.wav'
     )
+
+@app.route('/classify_emotion', methods=['POST'])
+def classify_emotion():
+    logging.info("Received request at /classify_emotion endpoint")
+
+    if 'audio' not in request.files:
+        logging.error("No audio file found in the request.")
+        return jsonify({'error': 'No audio file provided.'}), 400
+
+    audio_file = request.files['audio']
+
+    with tempfile.NamedTemporaryFile(delete=False) as temp_audio_file:
+        audio_file.save(temp_audio_file.name)
+        logging.info(f"Saved audio file to temporary location: {temp_audio_file.name}")
+
+        try:
+            logging.info("Loading emotion classification model...")
+            classifier = foreign_class(
+                source="speechbrain/emotion-recognition-wav2vec2-IEMOCAP",
+                pymodule_file="custom_interface.py",
+                classname="CustomEncoderWav2vec2Classifier"
+            )
+            logging.info("Emotion classification model loaded successfully.")
+        except Exception as e:
+            logging.exception(f"Error loading emotion classification model: {str(e)}")
+            return jsonify({'error': 'An error occurred while loading the emotion classification model.'}), 500
+
+        try:
+            logging.info("Starting emotion classification...")
+            out_prob, score, index, text_lab = classifier.classify_file(temp_audio_file.name)
+            predicted_emotion = text_lab[0]
+            logging.info(f"Emotion classification completed. Predicted emotion: {predicted_emotion}")
+        except Exception as e:
+            logging.exception(f"Error during emotion classification: {str(e)}")
+            return jsonify({'error': 'An error occurred during emotion classification.'}), 500
+        finally:
+            os.remove(temp_audio_file.name)
+
+    return jsonify({'emotion': predicted_emotion})
 
 if __name__ == '__main__':
     logging.info("Starting Flask application...")
