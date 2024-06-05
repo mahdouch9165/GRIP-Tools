@@ -4,6 +4,8 @@ from speechbrain.inference.separation import SepformerSeparation as separator
 from speechbrain.inference.TTS import Tacotron2
 from speechbrain.inference.vocoders import HIFIGAN
 from speechbrain.inference.interfaces import foreign_class
+from speechbrain.inference.speaker import SpeakerRecognition
+from speechbrain.inference.classifiers import EncoderClassifier
 import nltk
 import io
 import zipfile
@@ -237,6 +239,94 @@ def classify_emotion():
             os.remove(temp_audio_file.name)
 
     return jsonify({'emotion': predicted_emotion})
+
+@app.route('/verify_speaker', methods=['POST'])
+def verify_speaker():
+    logging.info("Received request at /verify_speaker endpoint")
+
+    if 'enrollment_audio' not in request.files or 'verification_audio' not in request.files:
+        logging.error("Missing enrollment or verification audio file in the request.")
+        return jsonify({'error': 'Missing enrollment or verification audio file.'}), 400
+
+    enrollment_audio = request.files['enrollment_audio']
+    verification_audio = request.files['verification_audio']
+
+    with tempfile.NamedTemporaryFile(delete=False) as temp_enrollment_file, \
+         tempfile.NamedTemporaryFile(delete=False) as temp_verification_file:
+
+        enrollment_audio.save(temp_enrollment_file.name)
+        verification_audio.save(temp_verification_file.name)
+        logging.info(f"Saved enrollment audio to: {temp_enrollment_file.name}")
+        logging.info(f"Saved verification audio to: {temp_verification_file.name}")
+
+        try:
+            logging.info("Loading speaker verification model...")
+            verification = SpeakerRecognition.from_hparams(
+                source="speechbrain/spkrec-ecapa-voxceleb",
+                savedir="pretrained_models/spkrec-ecapa-voxceleb"
+            )
+            logging.info("Speaker verification model loaded successfully.")
+        except Exception as e:
+            logging.exception(f"Error loading speaker verification model: {str(e)}")
+            return jsonify({'error': 'An error occurred while loading the speaker verification model.'}), 500
+
+        try:
+            logging.info("Starting speaker verification...")
+            score, prediction = verification.verify_files(
+                temp_enrollment_file.name,
+                temp_verification_file.name
+            )
+            score = score.item()  # Convert Tensor to Python float
+            prediction = prediction.item()  # Convert Tensor to Python bool
+            logging.info(f"Speaker verification completed. Score: {score}, Prediction: {prediction}")
+        except Exception as e:
+            logging.exception(f"Error during speaker verification: {str(e)}")
+            return jsonify({'error': 'An error occurred during speaker verification.'}), 500
+        finally:
+            os.remove(temp_enrollment_file.name)
+            os.remove(temp_verification_file.name)
+
+    return jsonify({'score': score, 'prediction': prediction})
+
+@app.route('/identify_language', methods=['POST'])
+def identify_language():
+    logging.info("Received request at /identify_language endpoint")
+
+    if 'audio' not in request.files:
+        logging.error("No audio file found in the request.")
+        return jsonify({'error': 'No audio file provided.'}), 400
+
+    audio_file = request.files['audio']
+
+    with tempfile.NamedTemporaryFile(delete=False) as temp_audio_file:
+        audio_file.save(temp_audio_file.name)
+        logging.info(f"Saved audio file to temporary location: {temp_audio_file.name}")
+
+        try:
+            logging.info("Loading language identification model...")
+            language_id = EncoderClassifier.from_hparams(
+                source="speechbrain/lang-id-voxlingua107-ecapa",
+                savedir="pretrained_models/lang-id-voxlingua107-ecapa"
+            )
+            logging.info("Language identification model loaded successfully.")
+        except Exception as e:
+            logging.exception(f"Error loading language identification model: {str(e)}")
+            return jsonify({'error': 'An error occurred while loading the language identification model.'}), 500
+
+        try:
+            logging.info("Starting language identification...")
+            signal = language_id.load_audio(temp_audio_file.name)
+            prediction = language_id.classify_batch(signal)
+            predicted_language = prediction[3][0]
+            likelihood = prediction[1].exp().item()
+            logging.info(f"Language identification completed. Predicted language: {predicted_language}, Likelihood: {likelihood}")
+        except Exception as e:
+            logging.exception(f"Error during language identification: {str(e)}")
+            return jsonify({'error': 'An error occurred during language identification.'}), 500
+        finally:
+            os.remove(temp_audio_file.name)
+
+    return jsonify({'language': predicted_language, 'likelihood': likelihood})
 
 if __name__ == '__main__':
     logging.info("Starting Flask application...")
